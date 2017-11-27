@@ -13,7 +13,15 @@ var stringifyJSON = function(obj) {
     });
     return '[' + results.join(',') + ']';
   } else if (typeof obj === 'object' && obj) {
-    return '{}';
+    var results = [];
+    for (var key in obj) {
+      if (typeof obj[key] === 'function' || typeof obj[key] === 'undefined') {
+        continue;
+      } else {
+        results.push(stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
+      }
+    }
+    return '{' + results.join(',') + '}';
   }
   return '' + obj;
 };
